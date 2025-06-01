@@ -1,0 +1,72 @@
+<nav class="bg-[#213448] fixed top-0 left-0 right-0 z-50">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+                <a href="{{ path('app_home') }}" class="text-[#ECEFCA] font-medium">EspeciESP</a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="{{ path('app_home') }}" class="text-[#94B4C1] hover:text-[#ECEFCA] transition-colors flex items-center">
+                    <i class="bi bi-house-door me-2"></i>Inicio
+                </a>
+                <a href="{{ path('app_support') }}" class="text-[#94B4C1] hover:text-[#ECEFCA] transition-colors flex items-center">
+                    <i class="bi bi-heart me-2"></i>Ayudar
+                </a>
+                <a href="{{ path('app_services') }}" class="text-[#94B4C1] hover:text-[#ECEFCA] transition-colors flex items-center">
+                    <i class="bi bi-shield me-2"></i>Especies
+                </a>
+            </div>
+
+            <button id="mobile-menu-button" class="md:hidden text-[#94B4C1] hover:text-[#ECEFCA] p-2">
+                <svg id="menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute left-0 right-0 top-16 bg-[#213448] shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 border-t border-[#547792]/20">
+                <a href="{{ path('app_home') }}" class="block px-3 py-2 text-[#94B4C1] hover:text-[#ECEFCA] hover:bg-[#547792]/10 rounded-md transition-colors flex items-center">
+                    <i class="bi bi-house-door me-2"></i>Inicio
+                </a>
+                <a href="{{ path('app_support') }}" class="block px-3 py-2 text-[#94B4C1] hover:text-[#ECEFCA] hover:bg-[#547792]/10 rounded-md transition-colors flex items-center">
+                    <i class="bi bi-heart me-2"></i>Ayudar
+                </a>
+                <a href="{{ path('app_services') }}" class="block px-3 py-2 text-[#94B4C1] hover:text-[#ECEFCA] hover:bg-[#547792]/10 rounded-md transition-colors flex items-center">
+                    <i class="bi bi-shield me-2"></i>Especies
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    let isMenuOpen = false;
+
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        mobileMenu.classList.toggle('hidden');
+        
+        // Update icon
+        if (isMenuOpen) {
+            menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
+        } else {
+            menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+        }
+    }
+
+    mobileMenuButton.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const isClickInside = mobileMenuButton.contains(event.target) || mobileMenu.contains(event.target);
+        if (!isClickInside && isMenuOpen) {
+            toggleMenu();
+        }
+    });
+});
+</script> 
