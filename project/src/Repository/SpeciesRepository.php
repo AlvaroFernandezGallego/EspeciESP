@@ -14,30 +14,31 @@ class SpeciesRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Species::class);
+        
     }
 
-    //    /**
-    //     * @return Species[] Returns an array of Species objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findByFilters(string $search = '', array $categoryIds = [], array $statusIds = [])
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->leftJoin('s.category', 'c')
+            ->leftJoin('s.status', 'st')
+            ->addSelect('c', 'st');
 
-    //    public function findOneBySomeField($value): ?Species
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if ($search !== '') {
+            $qb->andWhere('s.scientificName LIKE :search OR s.commonName LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
+        }
+
+        if (!empty($categoryIds)) {
+            $qb->andWhere('c.id IN (:categoryIds)')
+                ->setParameter('categoryIds', $categoryIds);
+        }
+
+        if (!empty($statusIds)) {
+            $qb->andWhere('st.id IN (:statusIds)')
+                ->setParameter('statusIds', $statusIds);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

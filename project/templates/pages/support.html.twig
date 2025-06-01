@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Colabora | EspeciESP{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-[#F9F9F9] flex flex-col items-center px-4 py-8">
+
+    <section class="w-full max-w-5xl bg-white rounded-lg shadow-md border border-[#1995AD] p-8 mb-12 text-center">
+        <h2 class="text-2xl font-bold text-[#1995AD] mb-4">Colabora</h2>
+        <p class="text-[#006F83] mb-4">
+            Selecciona una región en el mapa para ver ONGs y asociaciones de la zona a las que puedes ayudar
+        </p>
+    </section>
+
+    <section class="w-full max-w-6xl bg-white rounded-lg shadow-md border border-[#1995AD] p-8 mb-12">
+        <div class="d-flex justify-content-center align-items-center map-container">
+            <div id="chartdiv">
+                <div class="amcharts-main-div">
+                    <div class="amcharts-chart-div"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-full max-w-6xl bg-white rounded-lg shadow-md border border-[#1995AD] p-8 mb-12">
+        <div class="mt-5 text-center font-bold text-lg">
+            <span id="locationSelected" class="text-[#1995AD]"></span>
+        </div>
+
+        <p id="noOrganizationsMessage" class="text-center text-[#006F83] mt-4 hidden">
+            No se han encontrado ONGs o asociaciones en esta región. Si conoces alguna, puedes sugerirla a través de nuestro formulario de contacto
+        </p>
+
+        <div id="organizationList" class="space-y-6 mt-6 text-center"></div>
+    </section>
+
+    <a href="{{ path('app_home') }}" 
+       class="inline-block bg-[#1995AD] hover:bg-[#006F83] text-white font-semibold py-2 px-4 rounded transition-colors duration-300 mb-6 shadow-md text-center">
+        Volver a la página de inicio
+    </a>
+</div>
+
+<script type="text/javascript" src="{{ asset('libs/amcharts/ammap.js') }}"></script>
+<script type="text/javascript" src="{{ asset('libs/amcharts/themes/dark.js') }}"></script>
+
+<script>
+document.addEventListener('turbo:load', function() {
+    setTimeout(function() {
+        let currentMap;
+
+        function showLoading() {
+            const container = document.getElementById('organizationList');
+            container.innerHTML = '<p class="text-center text-[#006F83]">Cargando organizaciones...</p>';
+        }
+
+        function loadMap(mapUrl) {
+            if (currentMap) currentMap.clear();
+
+            currentMap = AmCharts.makeChart("chartdiv", {
+                "type": "map",
+                "theme": "dark",
+                "dataProvider": {
+                    "mapURL": mapUrl,
+                    "getAreasFromMap": true
+                },
+                "areasSettings": {
+                    "autoZoom": true,
+                    "rollOverColor": "#1995AD",  
+                    "selectedColor": "#006F83", 
+                    "color": "#A8C8E1",  
+                    "outlineColor": "#1995AD",
+                    "outlineAlpha": 0.5
+                }
+            });
+
+            currentMap.addListener("clickMapObject", function (event) {
+                const areaName = event.mapObject.title;
+                document.getElementById("locationSelected").innerText = areaName ?? "";
+
+                const container = document.getElementById('organizationList');
+                const noOrganizationsMessage = document.getElementById('noOrganizationsMessage');
+                showLoading();
+
+                fetch(`/organizations/by-region/${encodeURIComponent(areaName)}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Error al cargar organizaciones');
+                        return response.json();
+                    })
+                    .then(data => {
+                        container.innerHTML = '';
+
+                        if (data.length === 0) {
+                            noOrganizationsMessage.classList.remove('hidden');
+                            return;
+                        }
+
+                        noOrganizationsMessage.classList.add('hidden');
+
+                        data.forEach((org, index) => {
+                            const card = document.createElement('div');
+                            card.className = 'bg-white border border-gray-300 rounded-lg shadow-lg p-6 transform transition-transform hover:scale-105 duration-300 ease-in-out';
+
+                            const collapseId = `collapse-${index}`;
+
+                            const facebook = org.socialMedia1
+                                ? `<a href="${org.socialMedia1}" target="_blank" class="text-[#1877F2] hover:underline">Facebook</a>`
+                                : '';
+                            const instagram = org.socialMedia2
+                                ? `<a href="${org.socialMedia2}" target="_blank" class="text-[#E4405F] hover:underline">Instagram</a>`
+                                : '';
+                            const twitter = org.socialMedia3
+                                ? `<a href="${org.socialMedia3}" target="_blank" class="text-[#1DA1F2] hover:underline">X</a>`
+                                : '';
+
+                            card.innerHTML = `
+                                <h3 class="text-xl font-semibold text-[#1995AD] mb-2">${org.name}</h3>
+                                <p class="mb-1"><strong>Email:</strong> <a href="mailto:${org.email}" class="text-blue-600 hover:underline">${org.email}</a></p>
+                                <p class="mb-3"><strong>Teléfono:</strong> ${org.phone}</p>
+
+                                <div id="${collapseId}" class="hidden">
+                                    <p class="mb-1"><strong>Dirección:</strong> ${org.address}</p>
+                                    <p class="mb-1"><strong>Web:</strong> <a href="${org.url}" target="_blank" class="text-blue-600 hover:underline">${org.url}</a></p>
+                                    <p class="mt-2"><strong>Redes sociales:</strong></p>
+                                    <ul class="list-disc list-inside text-sm mt-1 space-y-1">
+                                        ${facebook ? `<li>${facebook}</li>` : ''}
+                                        ${instagram ? `<li>${instagram}</li>` : ''}
+                                        ${twitter ? `<li>${twitter} (antigua Twitter)</li>` : ''}
+                                    </ul>
+                                </div>
+
+                                <button data-target="${collapseId}" class="toggle-collapse mt-4 text-sm text-[#1995AD] font-semibold underline hover:text-[#006F83] cursor-pointer transition-colors duration-200">
+                                    Ver más
+                                </button>
+                            `;
+
+                            container.appendChild(card);
+                        });
+
+                        document.querySelectorAll('.toggle-collapse').forEach(button => {
+                            button.addEventListener('click', () => {
+                                const targetId = button.getAttribute('data-target');
+                                const content = document.getElementById(targetId);
+                                const expanded = !content.classList.contains('hidden');
+                                content.classList.toggle('hidden');
+                                button.textContent = expanded ? 'Ver más' : 'Ver menos';
+                            });
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        container.innerHTML = '<p class="text-red-600 text-center mt-4">Error al obtener los datos de la región.</p>';
+                    });
+            });
+        }
+
+        loadMap("{{ asset('images/maps/regions.svg') }}");
+    }, 500);
+});
+</script>
+{% endblock %}
