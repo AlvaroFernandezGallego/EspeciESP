@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalles de la Especie{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto px-4 py-6 max-w-7xl">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-4 sm:space-y-0">
+            <h1 class="text-2xl font-bold">Detalles de la Especie</h1>
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+                <a href="{{ path('app_species_edit', {'id': species.id}) }}" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 cursor-pointer">
+                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Editar
+                </a>
+                <a href="{{ path('app_species_index') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 cursor-pointer">
+                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Volver al listado
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {% if species.image %}
+                <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                    <div class="relative pb-[75%]">
+                        <img src="{{ asset(species.image) }}" alt="{{ species.commonName }}" class="absolute inset-0 w-full h-full object-cover">
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Información de la Especie</h3>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    <div class="px-4 py-3 grid grid-cols-3 gap-4">
+                        <dt class="text-sm font-medium text-gray-500">Nombre Científico</dt>
+                        <dd class="text-sm text-gray-900 col-span-2">{{ species.scientificName }}</dd>
+                    </div>
+                    <div class="px-4 py-3 grid grid-cols-3 gap-4">
+                        <dt class="text-sm font-medium text-gray-500">Nombre Común</dt>
+                        <dd class="text-sm text-gray-900 col-span-2">{{ species.commonName }}</dd>
+                    </div>
+                    <div class="px-4 py-3 grid grid-cols-3 gap-4">
+                        <dt class="text-sm font-medium text-gray-500">Categoría</dt>
+                        <dd class="text-sm text-gray-900 col-span-2">{{ species.category ? species.category.name : 'No especificada' }}</dd>
+                    </div>
+                    <div class="px-4 py-3 grid grid-cols-3 gap-4">
+                        <dt class="text-sm font-medium text-gray-500">Estado</dt>
+                        <dd class="text-sm text-gray-900 col-span-2">{{ species.status ? species.status.name : 'No especificado' }}</dd>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 flex justify-center sm:justify-end">
+            {{ include('panel/species/_delete_form.html.twig', {'id': species.id}) }}
+        </div>
+    </div>
+{% endblock %}

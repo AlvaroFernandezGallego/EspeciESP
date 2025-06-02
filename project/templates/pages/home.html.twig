@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EspeciESP - Especies en Peligro de España{% endblock %}
+
+{% block body %}
+    <main>
+
+        <section class="py-12 md:py-16 bg-[#ECEFCA]/5">
+            <div class="container mx-auto px-4 max-w-3xl text-center">
+                <p class="text-[#213448] text-lg md:text-xl leading-relaxed">
+                    España alberga una rica biodiversidad con numerosas especies únicas en el mundo. 
+                    Tu participación es fundamental para proteger nuestro patrimonio natural.
+                </p>
+            </div>
+        </section>
+
+        <section class="py-12 md:py-16">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-[#547792]/10">
+                        <div class="text-center mb-6">
+                            <i class="bi bi-shield text-[#547792] text-4xl mb-4"></i>
+                            <h2 class="text-2xl md:text-3xl font-medium text-[#213448] mb-4">Especies Protegidas</h2>
+                            <p class="text-[#213448]/80 mb-6">
+                                Descubre las especies en peligro de extinción en España y aprende sobre su importancia en nuestros ecosistemas.
+                            </p>
+                            <a href="{{ path('app_services') }}" class="inline-block bg-[#547792] text-[#ECEFCA] px-6 py-3 rounded-md hover:bg-[#547792]/90 transition-colors w-full md:w-auto">
+                                <i class="bi bi-search me-2"></i>Explorar Especies
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-[#547792]/10">
+                        <div class="text-center mb-6">
+                            <i class="bi bi-heart text-[#547792] text-4xl mb-4"></i>
+                            <h2 class="text-2xl md:text-3xl font-medium text-[#213448] mb-4">Cómo Ayudar</h2>
+                            <p class="text-[#213448]/80 mb-6">
+                                Colabora con organizaciones dedicadas a la conservación y protección de especies amenazadas.
+                            </p>
+                            <a href="{{ path('app_support') }}" class="inline-block bg-[#547792] text-[#ECEFCA] px-6 py-3 rounded-md hover:bg-[#547792]/90 transition-colors w-full md:w-auto">
+                                <i class="bi bi-heart-fill me-2"></i>Colaborar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
