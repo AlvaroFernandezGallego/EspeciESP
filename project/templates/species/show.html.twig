@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ species.commonName }} | EspeciESP{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <div>
+                <h1 class="text-2xl font-semibold text-[#213448]">{{ species.scientificName }}</h1>
+                <p class="mt-1 text-sm text-[#547792]">{{ species.commonName }}</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex flex-wrap gap-2">
+                <a href="{{ path('app_species_index') }}" class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-[#213448] bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#547792] transition-colors duration-200">
+                    <i class="bi bi-arrow-left me-2"></i>Volver
+                </a>
+                <a href="{{ path('app_species_edit', {'id': species.id}) }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-[#ECEFCA] bg-[#547792] hover:bg-[#94B4C1] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#547792] transition-colors duration-200">
+                    <i class="bi bi-pencil me-2"></i>Editar
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <div class="aspect-w-16 aspect-h-9 mb-6">
+                            {% if species.image %}
+                                <img src="{{ species.image }}" alt="{{ species.commonName }}" class="object-cover rounded-lg shadow-sm">
+                            {% else %}
+                                <div class="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-gray-400">Sin imagen</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <dl class="grid grid-cols-1 gap-4">
+                            <div>
+                                <dt class="text-sm font-medium text-[#547792]">Nombre Científico</dt>
+                                <dd class="mt-1 text-base text-[#213448]">{{ species.scientificName }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-[#547792]">Nombre Común</dt>
+                                <dd class="mt-1 text-base text-[#213448]">{{ species.commonName }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-[#547792]">Categoría</dt>
+                                <dd class="mt-1 text-base text-[#213448]">{{ species.category ? species.category.name : 'No especificada' }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-[#547792]">Estado</dt>
+                                <dd class="mt-1 text-base text-[#213448]">{{ species.status ? species.status.name : 'No especificado' }}</dd>
+                            </div>
+                        </dl>
+                    </div>
+
+                    <div>
+                        <div class="space-y-6">
+                            {% if species.description %}
+                            <div>
+                                <h3 class="text-lg font-medium text-[#213448] mb-2">Descripción</h3>
+                                <div class="prose prose-sm max-w-none text-[#547792]">
+                                    {{ species.description|nl2br }}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if species.habitat %}
+                            <div>
+                                <h3 class="text-lg font-medium text-[#213448] mb-2">Hábitat</h3>
+                                <div class="prose prose-sm max-w-none text-[#547792]">
+                                    {{ species.habitat|nl2br }}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if species.threats %}
+                            <div>
+                                <h3 class="text-lg font-medium text-[#213448] mb-2">Amenazas</h3>
+                                <div class="prose prose-sm max-w-none text-[#547792]">
+                                    {{ species.threats|nl2br }}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 flex justify-end">
+            {{ include('species/_delete_form.html.twig') }}
+        </div>
+    </div>
+</div>
+{% endblock %}
