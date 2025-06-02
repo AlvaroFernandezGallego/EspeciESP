@@ -98,7 +98,8 @@ class OrganizationsForm extends AbstractType
                 'label' => 'Correo Electrónico',
                 'required' => false,
                 'constraints' => [
-                    new Email([
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
                         'message' => 'Por favor, introduzca una dirección de correo electrónico válida',
                     ]),
                 ],

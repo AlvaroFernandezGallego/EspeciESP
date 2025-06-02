@@ -103,30 +103,15 @@ document.addEventListener('turbo:load', function() {
 
                             const collapseId = `collapse-${index}`;
 
-                            const facebook = org.socialMedia1
-                                ? `<a href="${org.socialMedia1}" target="_blank" class="text-[#547792] hover:text-[#547792]/80">Facebook</a>`
-                                : '';
-                            const instagram = org.socialMedia2
-                                ? `<a href="${org.socialMedia2}" target="_blank" class="text-[#547792] hover:text-[#547792]/80">Instagram</a>`
-                                : '';
-                            const twitter = org.socialMedia3
-                                ? `<a href="${org.socialMedia3}" target="_blank" class="text-[#547792] hover:text-[#547792]/80">X</a>`
-                                : '';
-
+                            // Eliminar la sección de redes sociales, por lo tanto no procesamos las redes sociales
                             card.innerHTML = `
                                 <h3 class="text-xl font-semibold text-[#213448] mb-2">${org.name}</h3>
                                 <p class="mb-1"><strong>Email:</strong> <a href="mailto:${org.email}" class="text-[#547792] hover:text-[#547792]/80">${org.email}</a></p>
-                                <p class="mb-3"><strong>Teléfono:</strong> ${org.phone}</p>
+                                <p class="mb-3"><strong>Teléfono:</strong> ${org.phoneNumber}</p>
 
                                 <div id="${collapseId}" class="hidden">
                                     <p class="mb-1"><strong>Dirección:</strong> ${org.address}</p>
-                                    <p class="mb-1"><strong>Web:</strong> <a href="${org.url}" target="_blank" class="text-[#547792] hover:text-[#547792]/80">${org.url}</a></p>
-                                    <p class="mt-2"><strong>Redes sociales:</strong></p>
-                                    <ul class="list-disc list-inside text-sm mt-1 space-y-1">
-                                        ${facebook ? `<li>${facebook}</li>` : ''}
-                                        ${instagram ? `<li>${instagram}</li>` : ''}
-                                        ${twitter ? `<li>${twitter} (antigua Twitter)</li>` : ''}
-                                    </ul>
+                                    <p class="mb-1"><strong>Web:</strong> <a href="${org.websiteUrl}" target="_blank" class="text-[#547792] hover:text-[#547792]/80">${org.websiteUrl}</a></p>
                                 </div>
 
                                 <button data-target="${collapseId}" class="toggle-collapse mt-4 text-sm text-[#547792] font-semibold underline hover:text-[#547792]/80 cursor-pointer transition-colors duration-200">
