@@ -9,6 +9,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Este controlador expone una API que permite consultar información sobre especies,
+ * incluyendo sus categorías y estados de conservación.
+ *
+ * Rutas disponibles:
+ * - GET /api/species: lista de especies con posibilidad de filtrar por nombre, categoría y estado.
+ * - GET /api/categories: devuelve todas las categorías disponibles.
+ * - GET /api/statuses: devuelve todos los estados de conservación disponibles.
+ */
 #[Route('/api', name: 'api_')]
 class ApiSpeciesController extends AbstractController
 {

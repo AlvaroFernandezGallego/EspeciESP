@@ -185,3 +185,15 @@ A continuación, se muestra un resumen de los comandos utilizados para desplegar
 
    * `symfony console make:migration`
    * `symfony console doctrine:migrations:migrate`
+
+# Administrador
+
+admin@especiesp.com 
+
+# Contraseña
+
+admin123
+
+# Enlace al repositorio público en GitHub
+
+https://github.com/AlvaroFernandezGallego/EspeciESP

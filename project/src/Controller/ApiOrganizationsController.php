@@ -7,6 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Este controlador expone una API que permite obtener organizaciones filtradas por región.
+ * 
+ * La ruta '/organizations/by-region/{regionName}' recibe un nombre de región como parámetro
+ * y devuelve una lista de organizaciones asociadas a esa región en formato JSON.
+ */
 class ApiOrganizationsController extends AbstractController
 {
     #[Route('/organizations/by-region/{regionName}', name: 'api_organizations_by_region', methods: ['GET'])]

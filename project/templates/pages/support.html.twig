@@ -54,6 +54,7 @@ document.addEventListener('turbo:load', function() {
             container.innerHTML = '<p class="text-center text-[#213448]/80">Cargando organizaciones...</p>';
         }
 
+        // Cargar el mapa de regiones
         function loadMap(mapUrl) {
             if (currentMap) currentMap.clear();
 
@@ -82,6 +83,7 @@ document.addEventListener('turbo:load', function() {
                 const noOrganizationsMessage = document.getElementById('noOrganizationsMessage');
                 showLoading();
 
+                // Obtener las organizaciones para la región seleccionada
                 fetch(`/organizations/by-region/${encodeURIComponent(areaName)}`)
                     .then(response => {
                         if (!response.ok) throw new Error('Error al cargar organizaciones');
@@ -121,6 +123,7 @@ document.addEventListener('turbo:load', function() {
                             container.appendChild(card);
                         });
 
+                        // Configurar los botones "Ver más" para desplegar información adicional
                         document.querySelectorAll('.toggle-collapse').forEach(button => {
                             button.addEventListener('click', () => {
                                 const targetId = button.getAttribute('data-target');
@@ -138,6 +141,7 @@ document.addEventListener('turbo:load', function() {
             });
         }
 
+        // Cargar el mapa con la URL proporcionada
         loadMap("{{ asset('images/maps/regions.svg') }}");
     }, 500);
 });
