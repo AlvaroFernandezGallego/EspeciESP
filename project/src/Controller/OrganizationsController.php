@@ -63,7 +63,7 @@ final class OrganizationsController extends AbstractController
             return $this->redirectToRoute('app_organizations_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('organizations/edit.html.twig', [
+        return $this->render('panel/organizations/edit.html.twig', [
             'organization' => $organization,
             'form' => $form,
         ]);

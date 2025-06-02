@@ -107,19 +107,6 @@ class OrganizationsForm extends AbstractType
                     'placeholder' => 'correo@ejemplo.com',
                 ],
             ])
-            ->add('social_media', TextType::class, [
-                'label' => 'Redes Sociales',
-                'required' => false,
-                'constraints' => [
-                    new Length([
-                        'max' => 255,
-                        'maxMessage' => 'Las redes sociales no pueden tener más de {{ limit }} caracteres',
-                    ]),
-                ],
-                'attr' => [
-                    'placeholder' => '@usuario_twitter, facebook.com/pagina, etc.',
-                ],
-            ])
         ;
     }
 
