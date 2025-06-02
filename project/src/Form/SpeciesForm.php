@@ -27,8 +27,8 @@ class SpeciesForm extends AbstractType
                         'message' => 'El nombre científico no puede estar vacío',
                     ]),
                     new Regex([
-                        'pattern' => '/^[A-Z][a-z]+ ([a-z]+|([A-Z][a-z]+))$/',
-                        'message' => 'El nombre científico debe tener formato binomial (ej: Panthera leo)',
+                        'pattern' => '/^[A-Za-zÀ-ÿ\s\'`,-]+$/',
+                        'message' => 'El nombre científico solo puede contener letras, espacios, apóstrofes y comas',
                     ]),
                 ],
                 'attr' => [
@@ -37,13 +37,11 @@ class SpeciesForm extends AbstractType
             ])
             ->add('commonName', TextType::class, [
                 'label' => 'Nombre común',
+                'required' => false,  
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'El nombre común no puede estar vacío',
-                    ]),
                     new Regex([
-                        'pattern' => '/^[A-Za-zÀ-ÿ\s]+$/',
-                        'message' => 'El nombre común solo puede contener letras y espacios',
+                        'pattern' => '/^[A-Za-zÀ-ÿ\s\'`,-]+$/',
+                        'message' => 'El nombre común solo puede contener letras, comas, espacios y apóstrofes',
                     ]),
                 ],
                 'attr' => [
@@ -51,7 +49,7 @@ class SpeciesForm extends AbstractType
                 ]
             ])
             ->add('image', UrlType::class, [
-                'label' => 'Imagen',
+                'label' => 'Imagen: ',
                 'required' => false,
                 'constraints' => [
                     new Url([
