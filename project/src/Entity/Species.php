@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SpeciesRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SpeciesRepository::class)]
 class Species
@@ -14,20 +14,21 @@ class Species
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $scientificName = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $commonName = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'species')]
+    #[ORM\ManyToOne(targetEntity: Categories::class, inversedBy: 'species')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categories $category = null;
 
-    #[ORM\ManyToOne(inversedBy: 'species')]
+    #[ORM\ManyToOne(targetEntity: Status::class, inversedBy: 'species')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Status $status = null;
 
@@ -44,7 +45,6 @@ class Species
     public function setScientificName(string $scientificName): static
     {
         $this->scientificName = $scientificName;
-
         return $this;
     }
 
@@ -56,7 +56,6 @@ class Species
     public function setCommonName(?string $commonName): static
     {
         $this->commonName = $commonName;
-
         return $this;
     }
 
@@ -68,7 +67,6 @@ class Species
     public function setImage(?string $image): static
     {
         $this->image = $image;
-
         return $this;
     }
 
@@ -80,7 +78,6 @@ class Species
     public function setCategory(?Categories $category): static
     {
         $this->category = $category;
-
         return $this;
     }
 
@@ -92,7 +89,6 @@ class Species
     public function setStatus(?Status $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 }

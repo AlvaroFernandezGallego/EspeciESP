@@ -1,101 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ organization.name }} | EspeciESP{% endblock %}
+{% block title %}Organizations{% endblock %}
 
 {% block body %}
-<div class="min-h-screen bg-gray-50">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-            <div>
-                <h1 class="text-2xl font-semibold text-[#213448]">{{ organization.name }}</h1>
-                <p class="mt-1 text-sm text-[#547792]">Detalles de la organización</p>
-            </div>
-            <div class="mt-4 md:mt-0 flex flex-wrap gap-2">
-                <a href="{{ path('app_organizations_index') }}" class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-[#213448] bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#547792] transition-colors duration-200">
-                    <i class="bi bi-arrow-left me-2"></i>Volver
-                </a>
-                <a href="{{ path('app_organizations_edit', {'id': organization.id}) }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-[#ECEFCA] bg-[#547792] hover:bg-[#94B4C1] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#547792] transition-colors duration-200">
-                    <i class="bi bi-pencil me-2"></i>Editar
-                </a>
-            </div>
-        </div>
+    <h1>Organizations</h1>
 
-        <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-            <div class="p-6">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div>
-                        <div class="aspect-w-16 aspect-h-9 mb-6">
-                            {% if organization.logo %}
-                                <img src="{{ organization.logo }}" alt="{{ organization.name }}" class="object-cover rounded-lg shadow-sm">
-                            {% else %}
-                                <div class="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center">
-                                    <span class="text-gray-400">Sin logo</span>
-                                </div>
-                            {% endif %}
-                        </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ organization.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ organization.name }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ organization.address }}</td>
+            </tr>
+            <tr>
+                <th>PhoneNumber</th>
+                <td>{{ organization.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th>WebsiteUrl</th>
+                <td>{{ organization.websiteUrl }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ organization.email }}</td>
+            </tr>
+            <tr>
+                <th>SocialMedia</th>
+                <td>{{ organization.socialMedia }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-                        <dl class="grid grid-cols-1 gap-4">
-                            <div>
-                                <dt class="text-sm font-medium text-[#547792]">Nombre</dt>
-                                <dd class="mt-1 text-base text-[#213448]">{{ organization.name }}</dd>
-                            </div>
-                            <div>
-                                <dt class="text-sm font-medium text-[#547792]">Email</dt>
-                                <dd class="mt-1 text-base text-[#213448]">
-                                    <a href="mailto:{{ organization.email }}" class="text-[#547792] hover:text-[#213448]">
-                                        {{ organization.email }}
-                                    </a>
-                                </dd>
-                            </div>
-                            <div>
-                                <dt class="text-sm font-medium text-[#547792]">Teléfono</dt>
-                                <dd class="mt-1 text-base text-[#213448]">
-                                    <a href="tel:{{ organization.phone }}" class="text-[#547792] hover:text-[#213448]">
-                                        {{ organization.phone }}
-                                    </a>
-                                </dd>
-                            </div>
-                            {% if organization.website %}
-                            <div>
-                                <dt class="text-sm font-medium text-[#547792]">Sitio Web</dt>
-                                <dd class="mt-1 text-base text-[#213448]">
-                                    <a href="{{ organization.website }}" target="_blank" class="text-[#547792] hover:text-[#213448] truncate block">
-                                        {{ organization.website }}
-                                    </a>
-                                </dd>
-                            </div>
-                            {% endif %}
-                        </dl>
-                    </div>
+    <a href="{{ path('app_organizations_index') }}">back to list</a>
 
-                    <div>
-                        <div class="space-y-6">
-                            {% if organization.description %}
-                            <div>
-                                <h3 class="text-lg font-medium text-[#213448] mb-2">Descripción</h3>
-                                <div class="prose prose-sm max-w-none text-[#547792]">
-                                    {{ organization.description|nl2br }}
-                                </div>
-                            </div>
-                            {% endif %}
+    <a href="{{ path('app_organizations_edit', {'id': organization.id}) }}">edit</a>
 
-                            {% if organization.address %}
-                            <div>
-                                <h3 class="text-lg font-medium text-[#213448] mb-2">Dirección</h3>
-                                <div class="prose prose-sm max-w-none text-[#547792]">
-                                    {{ organization.address|nl2br }}
-                                </div>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-4 flex justify-end">
-            {{ include('organizations/_delete_form.html.twig') }}
-        </div>
-    </div>
-</div>
+    {{ include('organizations/_delete_form.html.twig') }}
 {% endblock %}

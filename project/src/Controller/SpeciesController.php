@@ -11,13 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/species')]
+#[IsGranted('ROLE_USER')]
+#[Route('/panel/species')]
 final class SpeciesController extends AbstractController
 {
     #[Route(name: 'app_species_index', methods: ['GET'])]
     public function index(SpeciesRepository $speciesRepository): Response
     {
-        return $this->render('species/index.html.twig', [
+        return $this->render('panel/species/index.html.twig', [
             'species' => $speciesRepository->findAll(),
         ]);
     }
@@ -36,7 +37,7 @@ final class SpeciesController extends AbstractController
             return $this->redirectToRoute('app_species_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('species/new.html.twig', [
+        return $this->render('panel/species/new.html.twig', [
             'species' => $species,
             'form' => $form,
         ]);
@@ -45,7 +46,7 @@ final class SpeciesController extends AbstractController
     #[Route('/{id}', name: 'app_species_show', methods: ['GET'])]
     public function show(Species $species): Response
     {
-        return $this->render('species/show.html.twig', [
+        return $this->render('panel/species/show.html.twig', [
             'species' => $species,
         ]);
     }
@@ -62,7 +63,7 @@ final class SpeciesController extends AbstractController
             return $this->redirectToRoute('app_species_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('species/edit.html.twig', [
+        return $this->render('panel/species/edit.html.twig', [
             'species' => $species,
             'form' => $form,
         ]);

@@ -21,7 +21,7 @@ class Categories
     /**
      * @var Collection<int, Species>
      */
-    #[ORM\OneToMany(targetEntity: Species::class, mappedBy: 'category')]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Species::class)]
     private Collection $species;
 
     public function __construct()
@@ -42,7 +42,6 @@ class Categories
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -74,5 +73,10 @@ class Categories
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name ?? '';
     }
 }

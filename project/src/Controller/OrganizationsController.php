@@ -11,13 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/organizations')]
+#[IsGranted('ROLE_USER')]
+#[Route('/panel/organizations')]
 final class OrganizationsController extends AbstractController
 {
     #[Route(name: 'app_organizations_index', methods: ['GET'])]
     public function index(OrganizationsRepository $organizationsRepository): Response
     {
-        return $this->render('organizations/index.html.twig', [
+        return $this->render('panel/organizations/index.html.twig', [
             'organizations' => $organizationsRepository->findAll(),
         ]);
     }
@@ -36,7 +37,7 @@ final class OrganizationsController extends AbstractController
             return $this->redirectToRoute('app_organizations_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('organizations/new.html.twig', [
+        return $this->render('panel/organizations/new.html.twig', [
             'organization' => $organization,
             'form' => $form,
         ]);
@@ -45,7 +46,7 @@ final class OrganizationsController extends AbstractController
     #[Route('/{id}', name: 'app_organizations_show', methods: ['GET'])]
     public function show(Organizations $organization): Response
     {
-        return $this->render('organizations/show.html.twig', [
+        return $this->render('panel/organizations/show.html.twig', [
             'organization' => $organization,
         ]);
     }

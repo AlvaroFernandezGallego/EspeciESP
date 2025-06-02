@@ -1,29 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Editar Organización | EspeciESP{% endblock %}
+{% block title %}Edit Organizations{% endblock %}
 
 {% block body %}
-<div class="min-h-screen bg-gray-50">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-            <div>
-                <h1 class="text-2xl font-semibold text-[#213448]">Editar Organización</h1>
-                <p class="mt-1 text-sm text-[#547792]">{{ organization.name }}</p>
-            </div>
-            <div class="mt-4 md:mt-0">
-                <a href="{{ path('app_organizations_index') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-[#ECEFCA] bg-[#213448] hover:bg-[#547792] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#547792] transition-colors duration-200">
-                    <i class="bi bi-arrow-left me-2"></i>Volver al listado
-                </a>
-            </div>
-        </div>
+    <h1>Edit Organizations</h1>
 
-        <div class="bg-white shadow-sm rounded-lg p-6">
-            {{ include('organizations/_form.html.twig', {'button_label': 'Actualizar'}) }}
-        </div>
+    {{ include('organizations/_form.html.twig', {'button_label': 'Update'}) }}
 
-        <div class="mt-4 flex justify-end">
-            {{ include('organizations/_delete_form.html.twig') }}
-        </div>
-    </div>
-</div>
+    <a href="{{ path('app_organizations_index') }}">back to list</a>
+
+    {{ include('organizations/_delete_form.html.twig') }}
 {% endblock %}
