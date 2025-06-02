@@ -34,7 +34,6 @@
             </div>
         {% endfor %}
 
-        {# Vista móvil - Cards #}
         <div class="block sm:hidden">
             {% if organizations is defined and organizations|length > 0 %}
                 <div class="grid grid-cols-1 gap-4">
@@ -76,7 +75,6 @@
             {% endif %}
         </div>
 
-        {# Vista tablet/desktop - Grid de cards #}
         <div class="hidden sm:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {% if organizations is defined and organizations|length > 0 %}
                 {% for organization in organizations %}

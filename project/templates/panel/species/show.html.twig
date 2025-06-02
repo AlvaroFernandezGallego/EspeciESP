@@ -25,7 +25,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {% if species.image %}
                 <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-                    <div class="relative pb-[75%]"> {# Proporción 4:3 #}
+                    <div class="relative pb-[75%]">
                         <img src="{{ asset(species.image) }}" alt="{{ species.commonName }}" class="absolute inset-0 w-full h-full object-cover">
                     </div>
                 </div>
