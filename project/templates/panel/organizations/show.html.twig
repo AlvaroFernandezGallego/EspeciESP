@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalles de la Organización{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto px-4 py-6 max-w-7xl">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-4 sm:space-y-0">
+            <h1 class="text-2xl font-bold">Detalles de la Organización</h1>
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+                <a href="{{ path('app_organizations_edit', {'id': organization.id}) }}" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Editar
+                </a>
+                <a href="{{ path('app_organizations_index') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Volver al listado
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Información de la Organización</h3>
+            </div>
+            <div class="divide-y divide-gray-200">
+                <div class="px-4 py-3 grid grid-cols-3 gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Nombre</dt>
+                    <dd class="text-sm text-gray-900 col-span-2">{{ organization.name }}</dd>
+                </div>
+                <div class="px-4 py-3 grid grid-cols-3 gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Región</dt>
+                    <dd class="text-sm text-gray-900 col-span-2">{{ organization.region.name }}</dd>
+                </div>
+                <div class="px-4 py-3 grid grid-cols-3 gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Dirección</dt>
+                    <dd class="text-sm text-gray-900 col-span-2">{{ organization.address ?: 'No especificada' }}</dd>
+                </div>
+                <div class="px-4 py-3 grid grid-cols-3 gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Teléfono</dt>
+                    <dd class="text-sm text-gray-900 col-span-2">{{ organization.phoneNumber ?: 'No especificado' }}</dd>
+                </div>
+                <div class="px-4 py-3 grid grid-cols-3 gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Sitio Web</dt>
+                    <dd class="text-sm text-gray-900 col-span-2">
+                        {% if organization.websiteUrl %}
+                            <a href="{{ organization.websiteUrl }}" target="_blank" class="text-blue-600 hover:text-blue-800">{{ organization.websiteUrl }}</a>
+                        {% else %}
+                            No especificado
+                        {% endif %}
+                    </dd>
+                </div>
+                <div class="px-4 py-3 grid grid-cols-3 gap-4">
+                    <dt class="text-sm font-medium text-gray-500">Correo Electrónico</dt>
+                    <dd class="text-sm text-gray-900 col-span-2">
+                        {% if organization.email %}
+                            <a href="mailto:{{ organization.email }}" class="text-blue-600 hover:text-blue-800">{{ organization.email }}</a>
+                        {% else %}
+                            No especificado
+                        {% endif %}
+                    </dd>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 flex justify-center sm:justify-end">
+            {{ include('panel/organizations/_delete_form.html.twig', {'id': organization.id}) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,285 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Especies | EspeciESP{% endblock %}
+
+{% block body %}
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="flex justify-center mb-8">
+        <a href="{{ path('app_home') }}" 
+           class="inline-block bg-[#547792] hover:bg-[#94B4C1] text-white font-semibold py-2 px-4 rounded transition-colors duration-300 shadow-md">
+            Inicio
+        </a>
+    </div>
+
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-center sm:text-center w-full text-[#547792]">Listado de Especies</h1>
+    </div>
+
+    <div class="flex justify-center mb-8">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Buscar por nombre científico o común"
+            class="border border-[#ECEFCA] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#547792] w-full sm:max-w-md"
+        />
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-4 mb-12 px-4">
+        <div class="relative max-w-xs w-full sm:w-auto">
+            <button
+                type="button"
+                class="flex items-center justify-center bg-[#ECEFCA] hover:bg-[#547792] text-[#547792] hover:text-white px-4 py-2 rounded-md w-full hover:bg-[#94B4C1] focus:outline-none transition-colors text-center"
+                onclick="toggleCollapse('categoryFilter')"
+                aria-expanded="false"
+                aria-controls="categoryFilter"
+                id="categoryToggleBtn"
+            >
+                Filtrar por categorías
+            </button>
+            <div id="categoryFilter" class="hidden absolute mt-2 max-h-48 overflow-auto border border-[#ECEFCA] rounded-md bg-white p-3 z-10 w-full sm:w-auto">
+            </div>
+        </div>
+
+        <div class="relative max-w-xs w-full sm:w-auto">
+            <button
+                type="button"
+                class="flex items-center justify-center bg-[#ECEFCA] hover:bg-[#547792] text-[#547792] hover:text-white px-4 py-2 rounded-md w-full hover:bg-[#94B4C1] focus:outline-none transition-colors text-center"
+                onclick="toggleCollapse('statusFilter')"
+                aria-expanded="false"
+                aria-controls="statusFilter"
+                id="statusToggleBtn"
+            >
+                Filtrar por estados
+            </button>
+            <div id="statusFilter" class="hidden absolute mt-2 max-h-48 overflow-auto border border-[#ECEFCA] rounded-md bg-white p-3 z-10 w-full sm:w-auto">
+            </div>
+        </div>
+
+        <div class="relative max-w-xs w-full sm:w-auto">
+            <button
+                type="button"
+                class="flex items-center justify-center bg-[#ECEFCA] hover:bg-[#547792] text-[#547792] hover:text-white px-4 py-2 rounded-md w-full hover:bg-[#94B4C1] focus:outline-none transition-colors text-center"
+                onclick="toggleCollapse('orderFilter')"
+                aria-expanded="false"
+                aria-controls="orderFilter"
+                id="orderToggleBtn"
+            >
+                Ordenar por nombre
+            </button>
+            <div id="orderFilter" class="hidden absolute mt-2 max-h-48 overflow-auto border border-[#ECEFCA] rounded-md bg-white p-3 z-10 w-full sm:w-auto">
+                <label class="flex items-center space-x-2 mb-2 cursor-pointer select-none">
+                    <input
+                        type="radio"
+                        name="order"
+                        value="asc"
+                        checked
+                        class="form-radio h-4 w-4 text-[#547792]"
+                        onclick="changeOrder('asc')"
+                    />
+                    <span class="text-[#547792]">Ascendente</span>
+                </label>
+                <label class="flex items-center space-x-2 mb-2 cursor-pointer select-none">
+                    <input
+                        type="radio"
+                        name="order"
+                        value="desc"
+                        class="form-radio h-4 w-4 text-[#547792]"
+                        onclick="changeOrder('desc')"
+                    />
+                    <span class="text-[#547792]">Descendente</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-16 flex justify-center">
+        <div id="speciesContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4">
+            <p class="col-span-full text-center text-[#94B4C1]">Cargando especies...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleCollapse(id) 
+    {
+        const panel = document.getElementById(id);
+        const isHidden = panel.classList.contains('hidden');
+        panel.classList.toggle('hidden');
+    }
+
+    let categories = [];
+    let statuses = [];
+    let order = 'asc';
+
+    // Función para cargar las categorías y estados desde la API
+    async function fetchFilters() 
+    {
+        const [catResponse, statusResponse] = await Promise.all([
+            fetch('/api/categories'),
+            fetch('/api/statuses')
+        ]);
+        categories = await catResponse.json();
+        statuses = await statusResponse.json();
+
+        renderFilterOptions('categoryFilter', categories, 'category');
+        renderFilterOptions('statusFilter', statuses, 'status');
+    }
+
+    function renderFilterOptions(containerId, items, groupName) 
+    {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+
+        items.forEach(item => {
+            const label = document.createElement('label');
+            label.className = 'flex items-center space-x-2 mb-2 cursor-pointer select-none';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = groupName;
+            checkbox.value = item.id;
+            checkbox.className = 'form-checkbox h-4 w-4 text-[#547792]';
+            checkbox.addEventListener('change', fetchAndRenderSpecies);
+
+            const name = document.createElement('span');
+            name.className = 'text-[#547792]';
+            name.textContent = item.name;
+
+            label.appendChild(checkbox);
+            label.appendChild(name);
+            container.appendChild(label);
+        });
+
+        container.classList.add('flex', 'flex-col');
+    }
+
+    function changeOrder(newOrder) 
+    {
+        order = newOrder;
+        fetchAndRenderSpecies();
+    }
+
+    // Función para obtener y renderizar las especies según los filtros seleccionados
+    async function fetchAndRenderSpecies() 
+    {
+        const container = document.getElementById('speciesContainer');
+        container.innerHTML = '<p class="col-span-full text-center text-[#94B4C1]">Cargando especies...</p>';
+
+        const search = document.getElementById('searchInput').value.trim();
+
+        const selectedCategoryIds = Array.from(document.querySelectorAll('#categoryFilter input[type=checkbox]:checked')).map(cb => cb.value);
+        const selectedStatusIds = Array.from(document.querySelectorAll('#statusFilter input[type=checkbox]:checked')).map(cb => cb.value);
+
+        const params = new URLSearchParams();
+        if (search) params.append('search', search);
+
+        if (selectedCategoryIds.length) params.append('categories', selectedCategoryIds.join(','));
+
+        if (selectedStatusIds.length) params.append('statuses', selectedStatusIds.join(','));
+
+        params.append('order', order);
+
+        try 
+        {
+            const response = await fetch('/api/species?' + params.toString());
+
+            if (!response.ok) throw new Error('Error al cargar especies');
+
+            const speciesList = await response.json();
+
+            if (speciesList.length === 0) 
+            {
+                container.innerHTML = '<p class="col-span-full text-center text-[#94B4C1]">No hay especies para mostrar.</p>';
+                return;
+            }
+
+            // Ordenar las especies según el orden seleccionado
+            speciesList.sort((a, b) => {
+                if (order === 'asc') 
+                {
+                    return a.scientificName.localeCompare(b.scientificName);
+                } 
+                else 
+                {
+                    return b.scientificName.localeCompare(a.scientificName);
+                }
+            });
+
+            container.innerHTML = '';
+
+            speciesList.forEach(species => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center text-center transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-2xl';
+
+                const sciName = document.createElement('h3');
+                sciName.className = 'mb-4 text-base font-semibold text-[#547792]';
+                sciName.textContent = species.scientificName;
+                card.appendChild(sciName);
+
+                if (species.image) 
+                {
+                    const imageWrapper = document.createElement('div');
+                    imageWrapper.className = 'w-48 h-48 overflow-hidden rounded-md mb-6';
+
+                    const img = document.createElement('img');
+                    img.src = species.image;
+                    img.alt = species.commonName || species.scientificName;
+                    img.className = 'w-full h-full object-cover';
+                    imageWrapper.appendChild(img);
+                    card.appendChild(imageWrapper);
+                } 
+                else 
+                {
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'w-48 h-48 bg-gray-200 rounded-md flex items-center justify-center mb-6 text-gray-500 text-sm overflow-hidden';
+                    placeholder.textContent = 'Sin imagen';
+                    card.appendChild(placeholder);
+                }
+
+                const commonName = document.createElement('p');
+                commonName.className = 'text-[#547792] italic mb-6';
+                commonName.textContent = species.commonName || '';
+                card.appendChild(commonName);
+
+                const iconsContainer = document.createElement('div');
+                iconsContainer.className = 'flex space-x-8 justify-center mb-6';
+
+                if (species.category) 
+                {
+                    const categoryName = document.createElement('p');
+                    categoryName.className = 'text-[#547792] text-sm';
+                    categoryName.textContent = species.category.name;
+                    iconsContainer.appendChild(categoryName);
+                }
+
+                if (species.status) 
+                {
+                    const statusName = document.createElement('p');
+                    statusName.className = 'text-[#547792] text-sm';
+                    statusName.textContent = species.status.name;
+                    iconsContainer.appendChild(statusName);
+                }
+
+                card.appendChild(iconsContainer);
+                container.appendChild(card);
+            });
+        } 
+        catch (error) 
+        {
+            container.innerHTML = `<p class="col-span-full text-center text-[#94B4C1]">${error.message}</p>`;
+        }
+    }
+
+    // Escuchar cambios en la barra de búsqueda
+    document.getElementById('searchInput').addEventListener('input', () => {
+        clearTimeout(window._searchTimeout);
+        window._searchTimeout = setTimeout(fetchAndRenderSpecies, 300);
+    });
+
+    // Cargar filtros y especies cuando se cargue la página
+    document.addEventListener('turbo:load', async () => {
+        await fetchFilters();
+        await fetchAndRenderSpecies();
+    });
+</script>
+{% endblock %}

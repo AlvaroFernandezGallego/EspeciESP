@@ -1,0 +1,40 @@
+<footer class="bg-[#213448] text-[#94B4C1]">
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <div class="text-center sm:text-left">
+                <h3 class="text-[#ECEFCA] font-medium mb-4">EspeciESP</h3>
+                <p class="text-[#94B4C1]/80">Protegiendo la biodiversidad española para las generaciones futuras.</p>
+            </div>
+            <div class="text-center sm:text-left">
+                <h4 class="text-[#ECEFCA] font-medium mb-4">Navegación</h4>
+                <ul class="space-y-2">
+                    <li><a href="{{ path('app_home') }}" class="hover:text-[#ECEFCA] transition-colors flex items-center justify-center sm:justify-start">
+                        <i class="bi bi-house-door me-2"></i>Inicio
+                    </a></li>
+                    <li><a href="{{ path('app_support') }}" class="hover:text-[#ECEFCA] transition-colors flex items-center justify-center sm:justify-start">
+                        <i class="bi bi-heart me-2"></i>Ayudar
+                    </a></li>
+                    <li><a href="{{ path('app_services') }}" class="hover:text-[#ECEFCA] transition-colors flex items-center justify-center sm:justify-start">
+                        <i class="bi bi-shield me-2"></i>Especies
+                    </a></li>
+                </ul>
+            </div>
+            <div class="text-center sm:text-left">
+                <h4 class="text-[#ECEFCA] font-medium mb-4">Contacto</h4>
+                <ul class="space-y-2">
+                    <li class="flex items-center justify-center sm:justify-start">
+                        <i class="bi bi-envelope me-2"></i>
+                        contacto@especiesp.com
+                    </li>
+                    <li class="flex items-center justify-center sm:justify-start">
+                        <i class="bi bi-telephone me-2"></i>
+                        (123) 456-7890
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-[#547792]/20 mt-8 pt-8 text-center text-[#94B4C1]/60">
+            <p>&copy; {{ "now"|date("Y") }} EspeciESP. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer> 
