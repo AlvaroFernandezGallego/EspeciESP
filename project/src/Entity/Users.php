@@ -40,7 +40,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Messages>
      */
-    #[ORM\OneToMany(targetEntity: Messages::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Messages::class, mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $messages;
 
     public function __construct()

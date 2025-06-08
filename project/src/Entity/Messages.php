@@ -21,7 +21,7 @@ class Messages
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Users $user = null;
 
     #[ORM\Column]
