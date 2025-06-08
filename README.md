@@ -1,114 +1,105 @@
 # EspeciESP
 
-# 📦 Guía Completa para el Despliegue Local del Proyecto **EspeciESP**
+## Índice
 
-Este documento proporciona una guía técnica detallada para la instalación, configuración y despliegue local del sistema **EspeciESP**, una aplicación desarrollada con el framework **Symfony**. Se abordarán los pasos necesarios para establecer un entorno de desarrollo funcional en una máquina local, incluyendo la configuración de servicios, base de datos, dependencias y herramientas asociadas.
+- [Introducción](#introducción)
+- [Requisitos Previos](#requisitos-previos)
+- [Guía de Instalación y Despliegue](#guía-de-instalación-y-despliegue)
+  - [1. Instalación de PHP y XAMPP](#1-instalación-de-php-y-xampp)
+  - [2. Instalación de Scoop (Windows)](#2-instalación-de-scoop-windows)
+  - [3. Instalación de Symfony CLI](#3-instalación-de-symfony-cli)
+  - [4. Clonación y Acceso al Proyecto](#4-clonación-y-acceso-al-proyecto)
+  - [5. Configuración de la Base de Datos](#5-configuración-de-la-base-de-datos)
+  - [6. Importación de Datos de Prueba](#6-importación-de-datos-de-prueba)
+  - [7. Ejecución del Servidor Symfony](#7-ejecución-del-servidor-symfony)
+  - [8. Compilación de Recursos Frontend](#8-compilación-de-recursos-frontend)
+  - [9. Gestión de Migraciones](#9-gestión-de-migraciones)
+- [Resumen de Comandos](#resumen-de-comandos)
+- [Credenciales por Defecto](#credenciales-por-defecto)
+- [Repositorio](#repositorio)
+- [Contacto](#contacto)
 
 ---
 
-## ✅ Requisitos Previos
+## Introducción
 
-Antes de proceder con la instalación del proyecto, asegúrese de contar con los siguientes componentes y herramientas:
-
-* **PHP** (versión 8.1 o superior recomendada)
-* **XAMPP** (incluye Apache, MySQL y PHP)
-* **Scoop** (gestor de paquetes para entornos Windows)
-* **Symfony CLI** (utilidad de línea de comandos para proyectos Symfony)
-* **Node.js y NPM** (para la gestión y compilación de assets)
+Este documento detalla el procedimiento para desplegar localmente el proyecto **EspeciESP**, una aplicación desarrollada con Symfony. Aquí se incluyen las instrucciones para la instalación de dependencias, configuración de base de datos y ejecución del entorno de desarrollo.
 
 ---
 
-## 🛠️ Guía Paso a Paso para el Despliegue
+## Requisitos Previos
+
+- PHP 8.1 o superior  
+- XAMPP (Apache, MySQL)  
+- Scoop (gestor de paquetes para Windows)  
+- Symfony CLI  
+- Node.js y NPM  
+
+---
+
+## Guía de Instalación y Despliegue
 
 ### 1. Instalación de PHP y XAMPP
 
-#### PHP
-
-Descargue e instale PHP.
-
-Verifique que la versión instalada sea compatible con Symfony (mínimo PHP 8.1).
-
-#### XAMPP
-
-Instale XAMPP.
-
-Después de la instalación:
-
-* Inicie los servicios de **Apache** y **MySQL** desde el panel de control de XAMPP.
-* Verifique que ambos servicios estén ejecutándose correctamente.
+- Descargue PHP.
+- Instale XAMPP.
+- Inicie Apache y MySQL desde el panel de control XAMPP.
 
 ---
 
-### 2. Instalación de Scoop (Solo para Windows)
+### 2. Instalación de Scoop (Windows)
 
-Scoop facilita la instalación de herramientas de desarrollo desde la terminal de PowerShell.
-
-#### Pasos:
-
-1. Abra **PowerShell como Administrador**.
-2. Ejecute los siguientes comandos:
+Abra PowerShell como administrador y ejecute:
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
-```
-
-Esto instalará Scoop y habilitará el entorno para instalar Symfony CLI de forma sencilla.
+````
 
 ---
 
 ### 3. Instalación de Symfony CLI
 
-Una vez Scoop esté operativo, ejecute el siguiente comando en PowerShell para instalar Symfony CLI:
+Con Scoop instalado, ejecute:
 
 ```powershell
 scoop install symfony-cli
 ```
 
-Verifique que la instalación haya sido exitosa ejecutando:
+Valide la instalación:
 
 ```bash
 symfony check:requirements
 ```
 
-Este comando analizará su entorno local para asegurar que cumple con los requisitos mínimos de Symfony.
-
 ---
 
-### 4. Clonar y Acceder al Proyecto
+### 4. Clonación y Acceso al Proyecto
 
-Clonar el repositorio desde GitHub o ubique la carpeta del proyecto en su sistema. Luego acceda a la carpeta raíz del proyecto Symfony:
+Clonar el repositorio y acceder a la carpeta raíz:
 
 ```bash
 cd C:\ruta\del\proyecto\EspeciESP\project
 ```
 
-⚠️ **Importante**: Asegúrese de encontrarse en el directorio `project` del repositorio, ya que todos los comandos deben ejecutarse desde allí.
-
 ---
 
 ### 5. Configuración de la Base de Datos
 
-#### Creación de la Base de Datos
-
-Ejecute el siguiente comando:
+* Crear base de datos:
 
 ```bash
 symfony console doctrine:database:create
 ```
 
-Este comando creará la base de datos definida en el archivo `.env` del proyecto.
-
-#### Configuración de las Entidades y Tablas
-
-1. Genere las migraciones:
+* Generar migraciones:
 
 ```bash
 symfony console make:migration
 ```
 
-2. Aplique las migraciones para construir la estructura de la base de datos:
+* Ejecutar migraciones:
 
 ```bash
 symfony console doctrine:migrations:migrate
@@ -118,21 +109,21 @@ symfony console doctrine:migrations:migrate
 
 ### 6. Importación de Datos de Prueba
 
-1. Acceda a **phpMyAdmin** desde el panel de XAMPP: [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
-2. Seleccione la base de datos `especiesp`.
-3. Importe el archivo `speciesp.sql` ubicado en el directorio del proyecto, el cual contiene datos de prueba para la aplicación.
+* Acceda a phpMyAdmin: [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
+* Seleccione la base de datos `especiesp`
+* Importe el archivo `speciesp.sql` desde el directorio del proyecto.
 
 ---
 
-### 7. Iniciar el Servidor Symfony
+### 7. Ejecución del Servidor Symfony
 
-Una vez configurada la base de datos, inicie el servidor de desarrollo:
+Inicie el servidor en modo demonio:
 
 ```bash
 symfony serve -d
 ```
 
-Esto ejecutará la aplicación en segundo plano. Acceda desde su navegador a:
+Acceda a la aplicación en:
 
 ```
 http://127.0.0.1:8000
@@ -146,58 +137,58 @@ symfony server:stop
 
 ---
 
-### 8. Gestión de Nuevas Migraciones
+### 8. Compilación de Recursos Frontend
 
-Cuando se realicen cambios en las entidades (por ejemplo, campos nuevos o relaciones), siga este procedimiento:
+Si modifica CSS o JavaScript, compile assets con:
 
-1. Generar nuevas migraciones:
+```bash
+npm run dev
+```
+
+---
+
+### 9. Gestión de Migraciones
+
+Cada vez que realice cambios en entidades:
 
 ```bash
 symfony console make:migration
-```
-
-2. Aplicar las migraciones:
-
-```bash
 symfony console doctrine:migrations:migrate
 ```
 
-Esto garantizará que la base de datos se mantenga sincronizada con el modelo de datos del proyecto.
+---
+
+## Resumen de Comandos
+
+| Acción                         | Comando                                       |
+| ------------------------------ | --------------------------------------------- |
+| Acceso al proyecto             | `cd C:\ruta\del\proyecto\EspeciESP\project`   |
+| Crear base de datos            | `symfony console doctrine:database:create`    |
+| Generar migración              | `symfony console make:migration`              |
+| Aplicar migraciones            | `symfony console doctrine:migrations:migrate` |
+| Iniciar servidor               | `symfony serve -d`                            |
+| Detener servidor               | `symfony server:stop`                         |
+| Compilar recursos frontend     | `npm run dev`                                 |
+| Verificar requisitos Symfony   | `symfony check:requirements`                  |
+| Instalar Symfony CLI con Scoop | `scoop install symfony-cli`                   |
 
 ---
 
-## 📄 Resumen de Comandos Utilizados
+## Credenciales por Defecto
 
-| Propósito                        | Comando                                       |
-| -------------------------------- | --------------------------------------------- |
-| Acceder al proyecto              | `cd C:\ruta\del\proyecto\EspeciESP\project`   |
-| Crear la base de datos           | `symfony console doctrine:database:create`    |
-| Generar migraciones              | `symfony console make:migration`              |
-| Ejecutar migraciones             | `symfony console doctrine:migrations:migrate` |
-| Iniciar servidor de desarrollo   | `symfony serve -d`                            |
-| Detener servidor de desarrollo   | `symfony server:stop`                         |
-| Verificar requisitos Symfony     | `symfony check:requirements`                  |
-| Instalar Symfony CLI (con Scoop) | `scoop install symfony-cli`                   |
+* Usuario administrador: `admin@especiesp.com`
+* Contraseña: `admin123`
+
+> **Nota:** Se recomienda modificar estas credenciales en ambientes de producción.
 
 ---
 
-## 🔐 Credenciales por Defecto
+## Repositorio
 
-* **Usuario administrador**: `admin@especiesp.com`
-* **Contraseña**: `admin123`
-
-⚠️ *Por motivos de seguridad, se recomienda modificar estas credenciales en entornos de producción.*
+[https://github.com/AlvaroFernandezGallego/EspeciESP](https://github.com/AlvaroFernandezGallego/EspeciESP)
 
 ---
 
-## 🌐 Enlace al Repositorio
+## Contacto
 
-Puede acceder al repositorio del proyecto EspeciESP en GitHub a través del siguiente enlace:
-
-🔗 [https://github.com/AlvaroFernandezGallego/EspeciESP](https://github.com/AlvaroFernandezGallego/EspeciESP)
-
----
-
-## 📬 Contacto
-
-Para cualquier duda o sugerencia relacionada con el despliegue del proyecto, no dude en abrir un *issue* en el repositorio o contactar directamente con los responsables del desarrollo.
+Para consultas o reportes, abra un *issue* en el repositorio o contacte con el equipo de desarrollo.
