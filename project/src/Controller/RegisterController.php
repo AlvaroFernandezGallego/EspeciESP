@@ -9,15 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class RegisterController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request, 
-        EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $passwordHasher
+        EntityManagerInterface $entityManager
     ): Response
     {
         if ($this->getUser()) 
@@ -43,10 +41,7 @@ final class RegisterController extends AbstractController
                 }
                 
                 $user->setCreatedAt(new \DateTimeImmutable());
-                // Usar el password hasher de Symfony
-                $hashedPassword = $passwordHasher->hashPassword($user, $password);
-                $user->setPassword($hashedPassword);
-
+                
                 $entityManager->persist($user);
                 $entityManager->flush();
 
