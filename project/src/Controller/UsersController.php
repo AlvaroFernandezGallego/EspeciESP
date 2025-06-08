@@ -31,30 +31,20 @@ final class UsersController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_users_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_users_delete', methods: ['POST'])]
     public function delete(Request $request, Users $user, EntityManagerInterface $entityManager): Response
     {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            if (count($user->getMessages()) > 0) {
+                $this->addFlash('error', 'No se puede eliminar el usuario porque tiene mensajes asociados. Elimine primero los mensajes.');
+                return $this->redirectToRoute('app_users_show', ['id' => $user->getId()]);
+            }
 
-        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) 
-        {
             $entityManager->remove($user);
             $entityManager->flush();
+            $this->addFlash('success', 'Usuario eliminado correctamente');
         }
 
-        return $this->redirectToRoute('app_users_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/{id}/toggle-ban', name: 'app_users_toggle_ban', methods: ['POST'])]
-    public function toggleBan(Request $request, Users $user, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('toggle_ban'.$user->getId(), $request->request->get('_token'))) {
-            $user->setIsBanned(!$user->isIsBanned());
-            $entityManager->flush();
-            
-            $status = $user->isIsBanned() ? 'inhabilitada' : 'habilitada';
-            $this->addFlash('success', "La cuenta ha sido {$status} correctamente.");
-        }
-
-        return $this->redirectToRoute('app_users_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_users_index');
     }
 }
