@@ -1,0 +1,33 @@
+#chartdiv 
+{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    text-align: left;
+}
+
+.amcharts-main-div 
+{
+    position: relative;
+}
+
+.amcharts-chart-div 
+{
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    touch-action: auto;
+}
+
+.map-container 
+{
+    width: 100%;
+    max-width: 800px;
+    height: 500px;
+    margin: 30px auto;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
