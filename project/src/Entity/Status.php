@@ -56,7 +56,8 @@ class Status
 
     public function addSpecies(Species $species): static
     {
-        if (!$this->species->contains($species)) {
+        if (!$this->species->contains($species)) 
+        {
             $this->species->add($species);
             $species->setStatus($this);
         }
@@ -66,13 +67,14 @@ class Status
 
     public function removeSpecies(Species $species): static
     {
-        if ($this->species->removeElement($species)) {
-            // set the owning side to null (unless already changed)
-            if ($species->getStatus() === $this) {
+        if ($this->species->removeElement($species)) 
+        {
+            if ($species->getStatus() === $this) 
+            {
                 $species->setStatus(null);
             }
         }
-
+        
         return $this;
     }
 

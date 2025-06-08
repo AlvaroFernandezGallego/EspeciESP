@@ -56,7 +56,8 @@ class Regions
 
     public function addOrganization(Organizations $organization): static
     {
-        if (!$this->organizations->contains($organization)) {
+        if (!$this->organizations->contains($organization)) 
+        {
             $this->organizations->add($organization);
             $organization->setRegion($this);
         }
@@ -66,13 +67,13 @@ class Regions
 
     public function removeOrganization(Organizations $organization): static
     {
-        if ($this->organizations->removeElement($organization)) {
-            // set the owning side to null (unless already changed)
-            if ($organization->getRegion() === $this) {
+        if ($this->organizations->removeElement($organization)) 
+        {
+            if ($organization->getRegion() === $this) 
+            {
                 $organization->setRegion(null);
             }
         }
-
         return $this;
     }
 }

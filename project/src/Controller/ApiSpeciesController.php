@@ -9,15 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Este controlador expone una API que permite consultar información sobre especies,
- * incluyendo sus categorías y estados de conservación.
- *
- * Rutas disponibles:
- * - GET /api/species: lista de especies con posibilidad de filtrar por nombre, categoría y estado.
- * - GET /api/categories: devuelve todas las categorías disponibles.
- * - GET /api/statuses: devuelve todos los estados de conservación disponibles.
- */
 #[Route('/api', name: 'api_')]
 class ApiSpeciesController extends AbstractController
 {
@@ -35,7 +26,8 @@ class ApiSpeciesController extends AbstractController
 
         $data = [];
 
-        foreach ($speciesList as $species) {
+        foreach ($speciesList as $species) 
+        {
             $data[] = [
                 'id' => $species->getId(),
                 'scientificName' => $species->getScientificName(),
@@ -51,7 +43,6 @@ class ApiSpeciesController extends AbstractController
                 ] : null,
             ];
         }
-
         return $this->json($data);
     }
 
@@ -61,13 +52,13 @@ class ApiSpeciesController extends AbstractController
         $categories = $categoriesRepository->findAll();
         $data = [];
 
-        foreach ($categories as $category) {
+        foreach ($categories as $category) 
+        {
             $data[] = [
                 'id' => $category->getId(),
                 'name' => $category->getName(),
             ];
         }
-
         return $this->json($data);
     }
 
@@ -77,13 +68,13 @@ class ApiSpeciesController extends AbstractController
         $statuses = $statusRepository->findAll();
         $data = [];
 
-        foreach ($statuses as $status) {
+        foreach ($statuses as $status) 
+        {
             $data[] = [
                 'id' => $status->getId(),
                 'name' => $status->getName(),
             ];
         }
-
         return $this->json($data);
     }
 }

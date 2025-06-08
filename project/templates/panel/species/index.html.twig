@@ -34,7 +34,6 @@
             </div>
         {% endfor %}
 
-        {# Vista móvil - Cards #}
         <div class="block sm:hidden">
             {% if species is defined and species|length > 0 %}
                 <div class="grid grid-cols-1 gap-4">
@@ -93,12 +92,11 @@
             {% endif %}
         </div>
 
-        {# Vista tablet/desktop - Grid de cards #}
         <div class="hidden sm:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {% if species is defined and species|length > 0 %}
                 {% for specie in species %}
                     <div class="bg-white shadow rounded-lg overflow-hidden">
-                        <div class="relative pb-[75%]"> {# Proporción 4:3 #}
+                        <div class="relative pb-[75%]">
                             {% if specie.image %}
                                 <img src="{{ asset(specie.image) }}" alt="{{ specie.commonName }}" class="absolute inset-0 w-full h-full object-cover">
                             {% else %}

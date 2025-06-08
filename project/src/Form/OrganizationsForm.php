@@ -27,10 +27,10 @@ class OrganizationsForm extends AbstractType
                 'label' => 'Nombre',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Por favor, introduzca un nombre',
+                        'message' => 'El nombre de la organización no puede estar vacío',
                     ]),
                     new Length([
-                        'min' => 2,
+                        'min' => 10,
                         'max' => 255,
                         'minMessage' => 'El nombre debe tener al menos {{ limit }} caracteres',
                         'maxMessage' => 'El nombre no puede tener más de {{ limit }} caracteres',
@@ -70,7 +70,7 @@ class OrganizationsForm extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^[0-9+\-\s()]*$/',
+                        'pattern' => '/^(?:\+?\d{1,4}[\s\-]?)?(?:\(?\d{1,4}\)?[\s\-]?)?\d{1,4}[\s\-]?\d{1,4}[\s\-]?\d{1,4}$/',
                         'message' => 'Por favor, introduzca un número de teléfono válido',
                     ]),
                     new Length([
@@ -99,7 +99,7 @@ class OrganizationsForm extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+                        'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/',
                         'message' => 'Por favor, introduzca una dirección de correo electrónico válida',
                     ]),
                 ],

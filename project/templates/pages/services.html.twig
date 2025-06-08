@@ -111,7 +111,6 @@
     let statuses = [];
     let order = 'asc';
 
-    // Función para cargar las categorías y estados desde la API
     async function fetchFilters() 
     {
         const [catResponse, statusResponse] = await Promise.all([
@@ -159,7 +158,6 @@
         fetchAndRenderSpecies();
     }
 
-    // Función para obtener y renderizar las especies según los filtros seleccionados
     async function fetchAndRenderSpecies() 
     {
         const container = document.getElementById('speciesContainer');
@@ -193,7 +191,6 @@
                 return;
             }
 
-            // Ordenar las especies según el orden seleccionado
             speciesList.sort((a, b) => {
                 if (order === 'asc') 
                 {
@@ -270,13 +267,11 @@
         }
     }
 
-    // Escuchar cambios en la barra de búsqueda
     document.getElementById('searchInput').addEventListener('input', () => {
         clearTimeout(window._searchTimeout);
         window._searchTimeout = setTimeout(fetchAndRenderSpecies, 300);
     });
 
-    // Cargar filtros y especies cuando se cargue la página
     document.addEventListener('turbo:load', async () => {
         await fetchFilters();
         await fetchAndRenderSpecies();

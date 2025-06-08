@@ -20,7 +20,7 @@
 
     <section class="w-full max-w-6xl bg-white rounded-lg shadow-md border border-[#547792]/10 p-8 mb-12">
         <div class="d-flex justify-content-center align-items-center map-container">
-            <div id="chartdiv">
+            <div id="chartdiv" style="width: 100%; height: 500px;">
                 <div class="amcharts-main-div">
                     <div class="amcharts-chart-div"></div>
                 </div>
@@ -54,7 +54,6 @@ document.addEventListener('turbo:load', function() {
             container.innerHTML = '<p class="text-center text-[#213448]/80">Cargando organizaciones...</p>';
         }
 
-        // Cargar el mapa de regiones
         function loadMap(mapUrl) {
             if (currentMap) currentMap.clear();
 
@@ -83,7 +82,6 @@ document.addEventListener('turbo:load', function() {
                 const noOrganizationsMessage = document.getElementById('noOrganizationsMessage');
                 showLoading();
 
-                // Obtener las organizaciones para la región seleccionada
                 fetch(`/organizations/by-region/${encodeURIComponent(areaName)}`)
                     .then(response => {
                         if (!response.ok) throw new Error('Error al cargar organizaciones');
@@ -92,7 +90,8 @@ document.addEventListener('turbo:load', function() {
                     .then(data => {
                         container.innerHTML = '';
 
-                        if (data.length === 0) {
+                        if (data.length === 0) 
+                        {
                             noOrganizationsMessage.classList.remove('hidden');
                             return;
                         }
@@ -123,7 +122,6 @@ document.addEventListener('turbo:load', function() {
                             container.appendChild(card);
                         });
 
-                        // Configurar los botones "Ver más" para desplegar información adicional
                         document.querySelectorAll('.toggle-collapse').forEach(button => {
                             button.addEventListener('click', () => {
                                 const targetId = button.getAttribute('data-target');
@@ -141,7 +139,6 @@ document.addEventListener('turbo:load', function() {
             });
         }
 
-        // Cargar el mapa con la URL proporcionada
         loadMap("{{ asset('images/maps/regions.svg') }}");
     }, 500);
 });

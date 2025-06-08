@@ -1,33 +1,38 @@
 security:
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-        Symfony\Component\Security\Core\User\InMemoryUser: 'auto'
     
     providers:
-        app_users:
-            memory:
-                users:
-                    admin@especiesp.com: 
-                        password: '$2y$13$C.HnzXO.6FFOHm3TVmnUW.FGd9K5le./452mjjnDl3kOXcGc5RvG2' # admin123
-                        roles: ['ROLE_USER']
+        users:
+            entity:
+                class: App\Entity\Users
+                property: email
+        admin:
+            entity:
+                class: App\Entity\Admin
+                property: email
+        all_users:
+            chain:
+                providers: ['users', 'admin']
 
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
         main:
             lazy: true
-            provider: app_users
+            provider: all_users
             form_login:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-                default_target_path: app_panel
+                username_parameter: email
+                password_parameter: password
+                default_target_path: app_home
+            entry_point: form_login
+            access_denied_url: /error/403  # Redirige a una página de error personalizada
             logout:
                 path: app_logout
                 target: app_home
 
     access_control:
-        - { path: ^/panel, roles: ROLE_USER }
         - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: PUBLIC_ACCESS } 
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/panel, roles: ROLE_ADMIN }
