@@ -9,9 +9,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class UsersForm extends AbstractType
 {
+    private $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -54,6 +64,17 @@ class UsersForm extends AbstractType
                     new Assert\NotBlank(['message' => 'Por favor, confirme su contraseña'])
                 ]
             ]);
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            $user = $event->getData();
+            if ($user->getPassword()) {
+                $hashedPassword = $this->passwordHasher->hashPassword(
+                    $user,
+                    $user->getPassword()
+                );
+                $user->setPassword($hashedPassword);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

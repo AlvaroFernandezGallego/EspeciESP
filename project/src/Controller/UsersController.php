@@ -43,18 +43,4 @@ final class UsersController extends AbstractController
 
         return $this->redirectToRoute('app_users_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    #[Route('/{id}/toggle-ban', name: 'app_users_toggle_ban', methods: ['POST'])]
-    public function toggleBan(Request $request, Users $user, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('toggle_ban'.$user->getId(), $request->request->get('_token'))) {
-            $user->setIsBanned(!$user->isIsBanned());
-            $entityManager->flush();
-            
-            $status = $user->isIsBanned() ? 'inhabilitada' : 'habilitada';
-            $this->addFlash('success', "La cuenta ha sido {$status} correctamente.");
-        }
-
-        return $this->redirectToRoute('app_users_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
-    }
 }
