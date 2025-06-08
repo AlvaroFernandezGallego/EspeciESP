@@ -10,14 +10,10 @@
                 <h1 class="text-2xl font-semibold text-[#213448]">Panel de Administración</h1>
                 <p class="mt-1 text-sm text-[#547792]">Bienvenido al panel de gestión</p>
             </div>
-            <div class="mt-4 md:mt-0">
-                <a href="{{ path('app_logout') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-[#ECEFCA] bg-[#213448] hover:bg-[#547792] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#547792] transition-colors duration-200">
-                    <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
-                </a>
-            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Especies -->
             <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="flex items-center mb-4">
                     <i class="bi bi-shield text-2xl text-[#213448] me-3"></i>
@@ -29,6 +25,7 @@
                 </a>
             </div>
 
+            <!-- Organizaciones -->
             <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="flex items-center mb-4">
                     <i class="bi bi-building text-2xl text-[#213448] me-3"></i>
@@ -37,6 +34,30 @@
                 <p class="text-sm text-[#547792] mb-4">Gestiona las organizaciones colaboradoras.</p>
                 <a href="{{ path('app_organizations_index') }}" class="inline-flex items-center px-3 py-2 border border-[#547792] text-sm font-medium rounded-md text-[#547792] hover:text-[#ECEFCA] hover:bg-[#547792] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#547792] transition-colors duration-200">
                     <i class="bi bi-arrow-right me-2"></i>Gestionar Organizaciones
+                </a>
+            </div>
+
+            <!-- Usuarios -->
+            <div class="bg-white shadow-sm rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <i class="bi bi-person text-2xl text-[#213448] me-3"></i>
+                    <h2 class="text-xl font-medium text-[#213448]">Usuarios</h2>
+                </div>
+                <p class="text-sm text-[#547792] mb-4">Gestiona los usuarios del sistema.</p>
+                <a href="{{ path('app_users_index') }}" class="inline-flex items-center px-3 py-2 border border-[#547792] text-sm font-medium rounded-md text-[#547792] hover:text-[#ECEFCA] hover:bg-[#547792] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#547792] transition-colors duration-200">
+                    <i class="bi bi-arrow-right me-2"></i>Gestionar Usuarios
+                </a>
+            </div>
+
+            <!-- Mensajes -->
+            <div class="bg-white shadow-sm rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <i class="bi bi-chat-text text-2xl text-[#213448] me-3"></i>
+                    <h2 class="text-xl font-medium text-[#213448]">Mensajes</h2>
+                </div>
+                <p class="text-sm text-[#547792] mb-4">Gestiona los mensajes de los usuarios.</p>
+                <a href="{{ path('app_messages_index') }}" class="inline-flex items-center px-3 py-2 border border-[#547792] text-sm font-medium rounded-md text-[#547792] hover:text-[#ECEFCA] hover:bg-[#547792] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#547792] transition-colors duration-200">
+                    <i class="bi bi-arrow-right me-2"></i>Gestionar Mensajes
                 </a>
             </div>
         </div>

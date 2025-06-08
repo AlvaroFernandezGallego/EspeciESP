@@ -55,7 +55,8 @@ class Categories
 
     public function addSpecies(Species $species): static
     {
-        if (!$this->species->contains($species)) {
+        if (!$this->species->contains($species)) 
+        {
             $this->species->add($species);
             $species->setCategory($this);
         }
@@ -65,9 +66,10 @@ class Categories
 
     public function removeSpecies(Species $species): static
     {
-        if ($this->species->removeElement($species)) {
-            // set the owning side to null (unless already changed)
-            if ($species->getCategory() === $this) {
+        if ($this->species->removeElement($species)) 
+        {
+            if ($species->getCategory() === $this) 
+            {
                 $species->setCategory(null);
             }
         }

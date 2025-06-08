@@ -3,35 +3,73 @@
 {% block title %}Editar Organización{% endblock %}
 
 {% block body %}
-    <div class="container mx-auto px-4 py-6 max-w-7xl">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-4 sm:space-y-0">
-            <h1 class="text-2xl font-bold">Editar Organización</h1>
-            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
-                <a href="{{ path('app_organizations_index') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Volver al listado
-                </a>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="max-w-7xl mx-auto">
+            {# Header with navigation #}
+            <div class="mb-6 flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <a href="{{ path('app_organizations_index') }}" class="flex items-center text-gray-600 hover:text-gray-900">
+                        <i class="bi bi-arrow-left text-xl mr-2"></i>
+                        <span class="text-sm font-medium">Volver</span>
+                    </a>
+                    <h1 class="text-2xl font-bold text-gray-900">Editar Organización</h1>
+                </div>
             </div>
-        </div>
 
-        {% for message in app.flashes('success') %}
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <span class="block sm:inline">{{ message }}</span>
+            {# Main content #}
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 bg-gray-50">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Información de la Organización</h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Modifique los datos de la organización.</p>
+                </div>
+                <div class="px-4 py-5 sm:p-6">
+                    {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                                {{ form_widget(form.name, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#213448] focus:ring-[#213448] sm:text-sm'}}) }}
+                                {{ form_errors(form.name, {'attr': {'class': 'text-red-500 text-xs mt-1'}}) }}
+                            </div>
+
+                            <div>
+                                {{ form_label(form.region, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                                {{ form_widget(form.region, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#213448] focus:ring-[#213448] sm:text-sm'}}) }}
+                                {{ form_errors(form.region, {'attr': {'class': 'text-red-500 text-xs mt-1'}}) }}
+                            </div>
+
+                            <div>
+                                {{ form_label(form.address, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                                {{ form_widget(form.address, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#213448] focus:ring-[#213448] sm:text-sm'}}) }}
+                                {{ form_errors(form.address, {'attr': {'class': 'text-red-500 text-xs mt-1'}}) }}
+                            </div>
+
+                            <div>
+                                {{ form_label(form.phone_number, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                                {{ form_widget(form.phone_number, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#213448] focus:ring-[#213448] sm:text-sm'}}) }}
+                                {{ form_errors(form.phone_number, {'attr': {'class': 'text-red-500 text-xs mt-1'}}) }}
+                            </div>
+
+                            <div>
+                                {{ form_label(form.website_url, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                                {{ form_widget(form.website_url, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#213448] focus:ring-[#213448] sm:text-sm'}}) }}
+                                {{ form_errors(form.website_url, {'attr': {'class': 'text-red-500 text-xs mt-1'}}) }}
+                            </div>
+
+                            <div>
+                                {{ form_label(form.email, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                                {{ form_widget(form.email, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#213448] focus:ring-[#213448] sm:text-sm'}}) }}
+                                {{ form_errors(form.email, {'attr': {'class': 'text-red-500 text-xs mt-1'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end pt-5">
+                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#213448] hover:bg-[#ECEFCA] hover:text-[#213448] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#213448]">
+                                Guardar Cambios
+                            </button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
             </div>
-        {% endfor %}
-
-        {% for message in app.flashes('error') %}
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <span class="block sm:inline">{{ message }}</span>
-            </div>
-        {% endfor %}
-
-        {{ include('panel/organizations/_form.html.twig', {'button_label': 'Actualizar'}) }}
-
-        <div class="mt-4 flex justify-center sm:justify-end">
-            {{ include('panel/organizations/_delete_form.html.twig', {'id': organization.id}) }}
         </div>
     </div>
 {% endblock %}

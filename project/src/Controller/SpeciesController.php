@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[IsGranted('ROLE_USER')]
+#[IsGranted('ROLE_ADMIN')]
 #[Route('/panel/species')]
 final class SpeciesController extends AbstractController
 {
@@ -30,13 +30,12 @@ final class SpeciesController extends AbstractController
         $form = $this->createForm(SpeciesForm::class, $species);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $entityManager->persist($species);
             $entityManager->flush();
-
             return $this->redirectToRoute('app_species_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('panel/species/new.html.twig', [
             'species' => $species,
             'form' => $form,
@@ -57,12 +56,12 @@ final class SpeciesController extends AbstractController
         $form = $this->createForm(SpeciesForm::class, $species);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $entityManager->flush();
 
             return $this->redirectToRoute('app_species_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('panel/species/edit.html.twig', [
             'species' => $species,
             'form' => $form,
@@ -72,11 +71,11 @@ final class SpeciesController extends AbstractController
     #[Route('/{id}', name: 'app_species_delete', methods: ['POST'])]
     public function delete(Request $request, Species $species, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$species->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$species->getId(), $request->getPayload()->getString('_token'))) 
+        {
             $entityManager->remove($species);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('app_species_index', [], Response::HTTP_SEE_OTHER);
     }
 }

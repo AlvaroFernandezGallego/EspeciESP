@@ -1,7 +1,7 @@
 <nav class="bg-[#213448] fixed top-0 left-0 right-0 z-50">
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
-            <div class="flex items-center">
+            <div class="flex items-center space-x-8">
                 <a href="{{ path('app_home') }}" class="text-[#ECEFCA] font-medium">EspeciESP</a>
             </div>
             
@@ -10,15 +10,38 @@
                     <i class="bi bi-house-door me-2"></i>Inicio
                 </a>
                 <a href="{{ path('app_support') }}" class="text-[#94B4C1] hover:text-[#ECEFCA] transition-colors flex items-center">
-                    <i class="bi bi-heart me-2"></i>Ayudar
+                    <i class="bi bi-heart me-2"></i>Colabora
                 </a>
                 <a href="{{ path('app_services') }}" class="text-[#94B4C1] hover:text-[#ECEFCA] transition-colors flex items-center">
-                    <i class="bi bi-shield me-2"></i>Especies
+                    <i class="bi bi-shield me-2"></i>Listado
                 </a>
+                {% if app.user %}
+                    {% if not is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_opinion') }}" class="text-[#94B4C1] hover:text-[#ECEFCA] transition-colors flex items-center">
+                            <i class="bi bi-chat-text me-2"></i>Opina
+                        </a>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_panel') }}" class="text-[#94B4C1] hover:text-[#ECEFCA] transition-colors flex items-center">
+                            <i class="bi bi-person-gear me-2"></i>Opciones de Administrador
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_profile') }}" class="text-[#94B4C1] hover:text-[#ECEFCA] transition-colors flex items-center">
+                            <i class="bi bi-person-gear me-2"></i>Opciones de perfil
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('app_logout') }}" class="text-[#94B4C1] hover:text-[#ECEFCA] transition-colors flex items-center">
+                        <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                    </a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="text-[#94B4C1] hover:text-[#ECEFCA] transition-colors flex items-center">
+                        <i class="bi bi-person me-2"></i>Acceso
+                    </a>
+                {% endif %}
             </div>
 
             <button type="button" id="mobile-menu-button" class="md:hidden text-[#94B4C1] hover:text-[#ECEFCA] p-2" aria-expanded="false" aria-controls="mobile-menu">
-                <span class="sr-only">Abrir menú principal</span>
+                <span class="sr-only">Abrir menú</span>
                 <svg id="menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -31,80 +54,98 @@
                     <i class="bi bi-house-door me-2"></i>Inicio
                 </a>
                 <a href="{{ path('app_support') }}" class="block px-3 py-2 text-[#94B4C1] hover:text-[#ECEFCA] hover:bg-[#547792]/10 rounded-md transition-colors flex items-center">
-                    <i class="bi bi-heart me-2"></i>Ayudar
+                    <i class="bi bi-heart me-2"></i>Colabora
                 </a>
                 <a href="{{ path('app_services') }}" class="block px-3 py-2 text-[#94B4C1] hover:text-[#ECEFCA] hover:bg-[#547792]/10 rounded-md transition-colors flex items-center">
-                    <i class="bi bi-shield me-2"></i>Especies
+                    <i class="bi bi-shield me-2"></i>Listado
                 </a>
+                {% if app.user %}
+                    {% if not is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_opinion') }}" class="block px-3 py-2 text-[#94B4C1] hover:text-[#ECEFCA] hover:bg-[#547792]/10 rounded-md transition-colors flex items-center">
+                            <i class="bi bi-chat-text me-2"></i>Opina
+                        </a>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_panel') }}" class="block px-3 py-2 text-[#94B4C1] hover:text-[#ECEFCA] hover:bg-[#547792]/10 rounded-md transition-colors flex items-center">
+                            <i class="bi bi-person-gear me-2"></i>Opciones de Administrador
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_profile') }}" class="block px-3 py-2 text-[#94B4C1] hover:text-[#ECEFCA] hover:bg-[#547792]/10 rounded-md transition-colors flex items-center">
+                            <i class="bi bi-person-gear me-2"></i>Opciones de perfil
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('app_logout') }}" class="block px-3 py-2 text-[#94B4C1] hover:text-[#ECEFCA] hover:bg-[#547792]/10 rounded-md transition-colors flex items-center">
+                        <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                    </a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="block px-3 py-2 text-[#94B4C1] hover:text-[#ECEFCA] hover:bg-[#547792]/10 rounded-md transition-colors flex items-center">
+                        <i class="bi bi-person me-2"></i>Acceso
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
 </nav>
 
 <script>
-(function() {
-    function initMobileMenu() {
-        const button = document.getElementById('mobile-menu-button');
-        const menu = document.getElementById('mobile-menu');
-        const icon = document.getElementById('menu-icon');
+    (function() {
+        function initMobileMenu() {
+            const button = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
 
-        if (!button || !menu || !icon) return;
+            if (!button || !menu || !icon) return;
 
-        let isOpen = false;
+            let isOpen = false;
 
-        function updateMenuState(shouldOpen) {
-            isOpen = shouldOpen;
-            menu.classList.toggle('hidden', !isOpen);
-            button.setAttribute('aria-expanded', isOpen);
+            function updateMenuState(shouldOpen) {
+                isOpen = shouldOpen;
+                menu.classList.toggle('hidden', !isOpen);
+                button.setAttribute('aria-expanded', isOpen);
 
-            // Cambia el icono del menú (hamburguesa o X)
-            icon.innerHTML = isOpen
-                ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />'
-                : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+                icon.innerHTML = isOpen
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+            }
+
+            function toggleMenu(event) {
+                event.stopPropagation();
+                updateMenuState(!isOpen);
+            }
+
+            function closeMenu() {
+                updateMenuState(false);
+            }
+
+            button.addEventListener('click', toggleMenu);
+
+            document.addEventListener('click', (event) => {
+                const isClickInside = button.contains(event.target) || menu.contains(event.target);
+                if (!isClickInside && isOpen) {
+                    closeMenu();
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && isOpen) {
+                    closeMenu();
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768 && isOpen) {
+                    closeMenu();
+                }
+            });
         }
 
-        function toggleMenu(event) {
-            event.stopPropagation();
-            updateMenuState(!isOpen);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initMobileMenu);
+        } else {
+            initMobileMenu();
         }
 
-        function closeMenu() {
-            updateMenuState(false);
-        }
-
-        button.addEventListener('click', toggleMenu);
-
-        // Cierra el menú si se hace clic fuera
-        document.addEventListener('click', (event) => {
-            const isClickInside = button.contains(event.target) || menu.contains(event.target);
-            if (!isClickInside && isOpen) {
-                closeMenu();
-            }
-        });
-
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && isOpen) {
-                closeMenu();
-            }
-        });
-
-        // Cierra el menú en pantallas grandes si se redimensiona la ventana
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768 && isOpen) { 
-                closeMenu();
-            }
-        });
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initMobileMenu);
-    } else {
-        initMobileMenu();
-    }
-
-    // Si usas Turbo (para aplicaciones como Hotwire), re-inicializa el menú cuando se renderiza una nueva página
-    document.addEventListener('turbo:load', initMobileMenu);
-    document.addEventListener('turbo:load', initMobileMenu);
-    document.addEventListener('turbo:render', initMobileMenu);
-})();
-</script> 
+        document.addEventListener('turbo:load', initMobileMenu);
+        document.addEventListener('turbo:render', initMobileMenu);
+    })();
+</script>

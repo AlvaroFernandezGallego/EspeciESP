@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[IsGranted('ROLE_USER')]
+#[IsGranted('ROLE_ADMIN')]
 #[Route('/panel/organizations')]
 final class OrganizationsController extends AbstractController
 {
@@ -30,10 +30,10 @@ final class OrganizationsController extends AbstractController
         $form = $this->createForm(OrganizationsForm::class, $organization);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $entityManager->persist($organization);
             $entityManager->flush();
-
             return $this->redirectToRoute('app_organizations_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -57,12 +57,12 @@ final class OrganizationsController extends AbstractController
         $form = $this->createForm(OrganizationsForm::class, $organization);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $entityManager->flush();
 
             return $this->redirectToRoute('app_organizations_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('panel/organizations/edit.html.twig', [
             'organization' => $organization,
             'form' => $form,
@@ -72,11 +72,11 @@ final class OrganizationsController extends AbstractController
     #[Route('/{id}', name: 'app_organizations_delete', methods: ['POST'])]
     public function delete(Request $request, Organizations $organization, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$organization->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$organization->getId(), $request->getPayload()->getString('_token'))) 
+        {
             $entityManager->remove($organization);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('app_organizations_index', [], Response::HTTP_SEE_OTHER);
     }
 }

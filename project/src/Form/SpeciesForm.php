@@ -27,8 +27,8 @@ class SpeciesForm extends AbstractType
                         'message' => 'El nombre científico no puede estar vacío',
                     ]),
                     new Regex([
-                        'pattern' => '/^[A-Za-zÀ-ÿ\s\'`,-]+$/',
-                        'message' => 'El nombre científico solo puede contener letras, espacios, apóstrofes y comas',
+                        'pattern' => '/^[A-Za-zÀ-ÿ0-9\s\'`,-]+$/',
+                        'message' => 'El nombre científico solo puede contener letras, números, espacios, apóstrofes, comas y guiones',
                     ]),
                 ],
                 'attr' => [
@@ -37,11 +37,11 @@ class SpeciesForm extends AbstractType
             ])
             ->add('commonName', TextType::class, [
                 'label' => 'Nombre común',
-                'required' => false,  
+                'required' => false,
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^[A-Za-zÀ-ÿ\s\'`,-]+$/',
-                        'message' => 'El nombre común solo puede contener letras, comas, espacios y apóstrofes',
+                        'pattern' => '/^[A-Za-zÀ-ÿ0-9\s\'`,-]+$/',
+                        'message' => 'El nombre común solo puede contener letras, números, comas, espacios, apóstrofes y guiones',
                     ]),
                 ],
                 'attr' => [
@@ -56,8 +56,8 @@ class SpeciesForm extends AbstractType
                         'message' => 'La URL de la imagen no es válida',
                     ]),
                     new Regex([
-                        'pattern' => '/\.(jpg|jpeg|png|gif|webp)$/i',
-                        'message' => 'La URL debe terminar en una extensión de imagen válida (.jpg, .jpeg, .png, .gif, .webp)',
+                        'pattern' => '/\.(jpg|jpeg|png|gif|webp|bmp|tiff)$/i',
+                        'message' => 'La URL debe terminar en una extensión de imagen válida (.jpg, .jpeg, .png, .gif, .webp, .bmp, .tiff)',
                     ])
                 ],
                 'attr' => [

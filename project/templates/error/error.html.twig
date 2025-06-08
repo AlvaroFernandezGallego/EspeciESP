@@ -1,48 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% set show_layout = false %}
-
-{% block title %}Error {{ code }}{% endblock %}
-
-{% block head %}
-    {{ parent() }}
-    <meta name="robots" content="noindex, nofollow">
-{% endblock %}
+{% block title %}Error {{ code }} | EspeciESP{% endblock %}
 
 {% block body %}
-    <div class="min-h-screen bg-[#ECEFCA] flex flex-col items-center justify-center px-4 py-8">
-        <div class="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full text-center border border-[#547792]">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-[#213448] mb-4">Error {{ code }}</h1>
-            <p class="text-[#94B4C1] mb-6 text-sm sm:text-base">
-                {% if code == 400 %}
-                    La solicitud no ha podido ser procesada debido a un problema con los datos enviados.
-                {% elseif code == 401 %}
-                    Acceso no autorizado. Es necesario iniciar sesión para continuar.
-                {% elseif code == 403 %}
-                    Acceso denegado. No dispone de los permisos necesarios para visualizar esta página.
-                {% elseif code == 404 %}
-                    La página solicitada no ha sido encontrada.
-                {% elseif code == 405 %}
-                    Método no permitido. La operación solicitada no es válida en este contexto.
-                {% elseif code == 408 %}
-                    El servidor no ha recibido una respuesta a tiempo.
-                {% elseif code == 429 %}
-                    Se ha excedido el número de solicitudes permitidas. Por favor, inténtelo nuevamente más tarde.
-                {% elseif code == 500 %}
-                    Se ha producido un problema interno en el servidor. Estamos trabajando para solucionarlo.
-                {% elseif code == 502 %}
-                    El servidor ha recibido una respuesta inválida de un servicio externo.
-                {% elseif code == 503 %}
-                    Servicio no disponible temporalmente. Por favor, inténtelo nuevamente más tarde.
-                {% elseif code == 504 %}
-                    El servidor no ha podido responder a tiempo. Inténtelo de nuevo en unos momentos.
-                {% else %}
-                    Se ha producido un inconveniente inesperado. Lamentamos las molestias ocasionadas.
-                {% endif %}
-            </p>
-            <a href="/" class="inline-block bg-[#547792] hover:bg-[#213448] text-white font-semibold py-2 px-4 rounded transition-colors duration-300">
-                Volver al inicio
-            </a>
+<div class="min-h-screen bg-[#ECEFCA] flex flex-col justify-center items-center p-4">
+    <div class="max-w-lg w-full bg-white rounded-lg shadow-lg p-8 text-center">
+        <div class="mb-6">
+            {% if code == 404 %}
+                <i class="bi bi-question-circle text-6xl text-[#213448]"></i>
+            {% elseif code == 403 %}
+                <i class="bi bi-shield-lock text-6xl text-[#213448]"></i>
+            {% elseif code == 401 %}
+                <i class="bi bi-person-lock text-6xl text-[#213448]"></i>
+            {% else %}
+                <i class="bi bi-exclamation-triangle text-6xl text-[#213448]"></i>
+            {% endif %}
         </div>
+
+        <h1 class="text-4xl font-bold text-[#213448] mb-4">Error {{ code }}</h1>
+        <p class="text-lg text-[#547792] mb-8">{{ message }}</p>
+        
+        <a href="{{ path('app_home') }}" class="inline-flex items-center px-6 py-3 border border-[#213448] text-base font-medium rounded-md text-[#213448] bg-white hover:bg-[#ECEFCA] transition-colors">
+            <i class="bi bi-house-door me-2"></i>Volver al Inicio
+        </a>
     </div>
+</div>
 {% endblock %}
