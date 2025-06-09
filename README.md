@@ -177,7 +177,7 @@ symfony console doctrine:migrations:migrate
 ## Credenciales por Defecto
 
 * Usuario administrador: `admin@especiesp.com`
-* Contraseña: `admin123`
+* Contraseña: `Administrador123!`
 
 > **Nota:** Se recomienda modificar estas credenciales en ambientes de producción.
 
