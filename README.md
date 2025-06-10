@@ -14,6 +14,7 @@
   - [7. Ejecución del Servidor Symfony](#7-ejecución-del-servidor-symfony)
   - [8. Compilación de Recursos Frontend](#8-compilación-de-recursos-frontend)
   - [9. Gestión de Migraciones](#9-gestión-de-migraciones)
+  - [10. Instalación de Tailwind CSS](#10-instalación-de-tailwind-css-en-symfony)
 - [Resumen de Comandos](#resumen-de-comandos)
 - [Credenciales por Defecto](#credenciales-por-defecto)
 - [Repositorio](#repositorio)
@@ -23,7 +24,7 @@
 
 ## Introducción
 
-Este documento detalla el procedimiento para desplegar localmente el proyecto **EspeciESP**, una aplicación desarrollada con Symfony. Aquí se incluyen las instrucciones para la instalación de dependencias, configuración de base de datos y ejecución del entorno de desarrollo.
+Este documento detalla el procedimiento para desplegar localmente el proyecto **EspeciESP**, una aplicación desarrollada con Symfony. Aquí se incluyen las instrucciones para la instalación de dependencias, configuración de base de datos, ejecución del entorno de desarrollo y la integración de **Tailwind CSS** para el frontend.
 
 ---
 
@@ -77,10 +78,10 @@ symfony check:requirements
 
 ### 4. Clonación y Acceso al Proyecto
 
-Clonar el repositorio y acceder a la carpeta raíz:
+Clonar el repositorio y acceder a la carpeta raíz en `C:\xampp\htdocs`:
 
 ```bash
-cd C:\ruta\del\proyecto\EspeciESP\project
+cd C:\xampp\htdocs\EspeciESP\project
 ```
 
 ---
@@ -158,6 +159,93 @@ symfony console doctrine:migrations:migrate
 
 ---
 
+### 10. Instalación de Tailwind CSS en Symfony
+
+#### 1. Situarte correctamente en el proyecto
+
+Sitúate dentro del directorio 'project'
+
+```bash
+cd project
+```
+
+#### 2. Instalar Webpack Encore
+
+Instala **Webpack Encore**, que se encargará de la compilación de tus recursos:
+
+```bash
+composer remove symfony/ux-turbo symfony/asset-mapper symfony/stimulus-bundle
+composer require symfony/webpack-encore-bundle symfony/ux-turbo symfony/stimulus-bundle
+```
+
+#### 3. Instalar Tailwind CSS
+
+Usa **npm** para instalar **Tailwind CSS** y sus dependencias necesarias:
+
+```bash
+npm install tailwindcss @tailwindcss/postcss postcss postcss-loader
+```
+
+#### 4. Habilitar el soporte de PostCSS
+
+En tu archivo `webpack.config.js`, habilita el **PostCSS Loader**:
+
+```javascript
+Encore.enablePostCssLoader();
+```
+
+#### 5. Configurar los plugins de PostCSS
+
+Crea el archivo `postcss.config.mjs` dentro del directorio 'project' y agrega el plugin de Tailwind CSS:
+
+```javascript
+export default {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+};
+```
+
+#### 6. Importar Tailwind CSS
+
+Agrega la importación de Tailwind CSS en tu archivo `./assets/styles/app.css`:
+
+```css
+@import "tailwindcss";
+```
+
+#### 7. Iniciar el proceso de compilación
+
+Corre el proceso de compilación con:
+
+```bash
+npm run watch
+```
+
+#### 8. Empezar a usar Tailwind en tu Proyecto
+
+Asegúrate de que tu archivo CSS compilado se incluya en el `<head>` de tus plantillas y empieza a usar las clases de utilidad de Tailwind en tu HTML:
+
+```html
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+  </head>
+  <body>
+    <h1 class="text-3xl font-bold underline">
+      Hello world!
+    </h1>
+  </body>
+</html>
+```
+
+---
+
 ## Resumen de Comandos
 
 | Acción                         | Comando                                       |
@@ -177,7 +265,7 @@ symfony console doctrine:migrations:migrate
 ## Credenciales por Defecto
 
 * Usuario administrador: `admin@especiesp.com`
-* Contraseña: `admin123`
+* Contraseña: `Administrador123!`
 
 > **Nota:** Se recomienda modificar estas credenciales en ambientes de producción.
 
